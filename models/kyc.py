@@ -11,7 +11,7 @@ import os
 load_dotenv(find_dotenv())
 
 app = Flask(__name__)
-app.config["IMAGE_UPLOADS"] = r"C:\Users\DELL\Documents\KYC_VERIFICATION"
+app.config["IMAGE_UPLOADS"] = r"C:\Users\Aditya Bapat\Downloads\kyc_images"
 
 def upload_image(image):
     print("IMAGE-- ",image.filename)
@@ -35,9 +35,9 @@ def upload_image(image):
 
 def kycUserCreate(request, db):
     print(request.files)
-    print(json.loads(request.form["data2"]))
+    print(json.loads(request.form.get("data2")))
     try:
-        data = json.loads(request.form["data2"])
+        data = json.loads(request.form.get("data2"))
         if request.files:
             image = request.files["document"]
             if(upload_image(image)):
