@@ -1,39 +1,52 @@
 import json
-from flask import Flask, Response, request
+from flask import Flask, Response, request, jsonify
+from flask_restful import Resource, Api
+from dotenv import load_dotenv, find_dotenv
+import cv2
+import datetime
+import time
+# import requests
 
-def upload_image():
-    dirname=''
-    if request.method == "POST":
-        if request.files:
-            print("REQUEST FILES")
-            image = request.files["image"]
-            print("IMAGE")
-            image.save(os.path.join(app.config["IMAGE_UPLOADS"]+'Uploads\\', image.filename))
-            dirname=str(datetime.datetime.now())
-            dirname=dirname.replace(':','')
-            dirname=dirname.replace('-','')
-            dirname=dirname.replace(' ','')
-            newpath = r'D:\PROJECT_AND_CODES\KYC_VERIFICATION\\imgdatabase'+str(dirname) +'\\Dataset'
-            print(image.filename)
-            if not os.path.exists(newpath):
-                os.makedirs(newpath)
-            if allowed_pdf(image.filename):
-                formImg(image.filename,dirname)     
-            else:
-                print(image.filename) 
-                formDirectImg(image.filename,dirname)  
-    return render_template('stp2.html',dirname=dirname)
+import os
+load_dotenv(find_dotenv())
 
+app = Flask(__name__)
+app.config["IMAGE_UPLOADS"] = r"C:\Users\DELL\Documents\KYC_VERIFICATION"
+
+def upload_image(image):
+    print("IMAGE-- ",image.filename)
+    image.save(os.path.join(app.config["IMAGE_UPLOADS"]+'\\Uploads\\', image.filename))
+    dirname=str(datetime.datetime.now())
+    dirname=dirname.replace(':','')
+    dirname=dirname.replace('-','')
+    dirname=dirname.replace(' ','')
+    newpath = r'C:\Documents\KYC_VERIFICATION\\imgdatabase'+str(dirname) +'\\Dataset'
+    print(newpath)
+    if not os.path.exists(newpath):
+        os.makedirs(newpath)
+    
+    if allowed_pdf(image.filename):
+        # formImg(image.filename,dirname)
+        print("Hey")     
+    else:
+        print(image.filename) 
+        # formDirectImg(image.filename,dirname)
+    return True
 
 def kycUserCreate(request, db):
-    print(json.loads(request.data))
+    print(request.files)
+    print(json.loads(request.form["data2"]))
     try:
-        data = json.loads(request.data)
+        data = json.loads(request.form["data2"])
         if request.files:
-            print("Request files")
-            image = request.files["image"]
+            image = request.files["document"]
+            if(upload_image(image)):
+                print("Image uploaded successfully")
+            else:
+                Exception("Image uploading error")
         else:
             raise Exception("Sorry, no file exist")
+        
         query = {
             "fname": data["fname"],
             "lname": data["lname"],

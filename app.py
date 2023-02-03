@@ -51,5 +51,7 @@ def route3():
         return res
     except Exception as ex:
         print("Exception ---- ", ex)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
