@@ -9,6 +9,7 @@ load_dotenv(find_dotenv())
 from flask_cors import CORS 
 from models.test import *
 from models.kyc import *
+from models.login import *
 
 app = Flask(__name__)
 api=Api(app)
@@ -58,6 +59,14 @@ def route3():
 def route4():
     try:
         res = camera(request, db)
+        return res
+    except Exception as ex:
+        print("Exception ---- ", ex)
+
+@app.route('/login', methods = ['GET', 'POST'])
+def route5():
+    try:
+        res = login(request, db)
         return res
     except Exception as ex:
         print("Exception ---- ", ex)
