@@ -114,12 +114,12 @@ def formDirectImg(filename,dirname):
     #Detect faces in image
     faces = faceCascade.detectMultiScale(
             gray,
-            scaleFactor=1.3,
-            minNeighbors=3,
+            scaleFactor=1.1,
+            minNeighbors=9,
             minSize=(30, 30)
     )
     print("[INFO] Found {0} Faces.".format(len(faces)))
-    padding = 30
+    padding = 40
     #drawing the rectangles in the image
     for (x, y, w, h) in faces:
         image = cv2.rectangle(image, (x-padding, y-padding),(x + w+padding, y + h+padding), (0, 255, 0), 2)
