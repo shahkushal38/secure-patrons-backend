@@ -9,6 +9,7 @@ import requests
 import fitz
 import re
 from deepface import DeepFace
+from bson import ObjectId
 
 import os
 load_dotenv(find_dotenv())
@@ -221,9 +222,20 @@ def camera(request, db):
     cam.release()
     cv2.destroyAllWindows() 
     value = compare(dirname)
-    myquery = {"_id": data["id"]}
-    newvalues = {"$set": { "kycstatus": value } }
+    print("1 Value is:",value)
+    print("1 Value Type:",type(value))
+
+    newvalues = {"$set": { "kycstatus": value}}
+    myquery = {"_id": ObjectId(data["id"])}
+    if value:
+        newvalues = {"$set": { "kycstatus": True } }
+    else:
+        newvalues = {"$set": { "kycstatus": False } }
+    print("2 Value is:",value)
+    print("newVal:",newvalues)
     dbresponse = db.user.update_one(myquery, newvalues)
+
+    print("dbres:",dbresponse)
     if(dbresponse):
         return Response(
             response=json.dumps({
@@ -257,7 +269,8 @@ def compare(dirname):
                 result = DeepFace.verify(img1_path =path1,img2_path =path2, model_name = "VGG-Face", distance_metric = "cosine")
                 threshold = 0.30 #threshold for VGG-Face and Cosine Similarity
                 print("Is verified: ", result["verified"])
-                if result["verified"] == True:
+                print("type:", type(result["verified"]))
+                if result["verified"]:
                     return True
                 else:
                     return False
