@@ -52,6 +52,13 @@ def route3():
     except Exception as ex:
         print("Exception ---- ", ex)
 
+@app.route('/kycOpenCamera', methods = ['GET', 'POST'])
+def route4():
+    try:
+        res = camera(request, db)
+        return res
+    except Exception as ex:
+        print("Exception ---- ", ex)
 
 if __name__ == '__main__':
     app.run(debug=True)
