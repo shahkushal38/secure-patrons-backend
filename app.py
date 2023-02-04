@@ -16,7 +16,9 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 # database connectivity
 database = os.environ.get("database")
-client = MongoClient(database)
+
+# increased MongoDB timeout
+client = MongoClient(database, serverSelectionTimeoutMS=30000)
 try:
     if(client):
         print("Connection Established")
