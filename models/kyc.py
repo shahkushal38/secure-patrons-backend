@@ -14,7 +14,7 @@ import os
 load_dotenv(find_dotenv())
 
 app = Flask(__name__)
-app.config["IMAGE_UPLOADS"] = r"C:\Users\DELL\Documents\KYC_VERIFICATION"
+app.config["IMAGE_UPLOADS"] = r"C:\Users\Aditya Bapat\Downloads\kyc_images"
 
 def upload_image(image):
     print("IMAGE-- ",image.filename)
@@ -24,7 +24,7 @@ def upload_image(image):
     dirname=dirname.replace('-','')
     dirname=dirname.replace(' ','')
     directory = str(dirname)
-    newpath = r'C:\Users\DELL\Documents\KYC_VERIFICATION\\imgdatabase'+str(dirname) +'\\Dataset'
+    newpath = r'C:\Users\Aditya Bapat\Downloads\kyc_images\\imgdatabase'+str(dirname) +'\\Dataset'
     print(newpath)
     if not os.path.exists(newpath):
         os.makedirs(newpath)
@@ -65,7 +65,7 @@ def formImg(fileName,dirname):
     global count1
     count1=0
     for i in range(0, counter):
-        imagePath = r"C:\Users\DELL\Documents\KYC_VERIFICATION\pdf" +str(i)+".png"
+        imagePath = r"C:\Users\Aditya Bapat\Downloads\kyc_images\pdf" +str(i)+".png"
         image = cv2.imread(imagePath)
         print("Image read - ",image)
         try:
@@ -91,9 +91,9 @@ def formImg(fileName,dirname):
             roi_color = image[y-30:y + h+30, x-30:x + w+30]
             print("[INFO] Object found. Saving locally.")
             #if(count==0):
-            cv2.imwrite(r'C:\Users\DELL\Documents\KYC_VERIFICATION\\imgdatabase'+str(dirname)+'\\Dataset\\face'+str(count1)+'.jpg', roi_color)
+            cv2.imwrite(r'C:\Users\Aditya Bapat\Downloads\kyc_images\\imgdatabase'+str(dirname)+'\\Dataset\\face'+str(count1)+'.jpg', roi_color)
             count1=count1+1
-        status = cv2.imwrite(r'C:\Users\DELL\Documents\KYC_VERIFICATION\\faces_detected.jpg', image)
+        status = cv2.imwrite(r'C:\Users\Aditya Bapat\Downloads\kyc_images\\faces_detected.jpg', image)
         print('count: ',count1)
         print("[INFO] Image faces_detected.jpg written to filesystem: ", status)
     return ''
@@ -114,21 +114,21 @@ def formDirectImg(filename,dirname):
     #Detect faces in image
     faces = faceCascade.detectMultiScale(
             gray,
-            scaleFactor=1.3,
-            minNeighbors=3,
+            scaleFactor=1.1,
+            minNeighbors=9,
             minSize=(30, 30)
     )
     print("[INFO] Found {0} Faces.".format(len(faces)))
-    padding = 30
+    padding = 40
     #drawing the rectangles in the image
     for (x, y, w, h) in faces:
         image = cv2.rectangle(image, (x-padding, y-padding),(x + w+padding, y + h+padding), (0, 255, 0), 2)
         roi_color = image[y-30:y + h+30, x-30:x + w+30]
         print("[INFO] Object found. Saving locally.")
         #if(count1==0):
-        cv2.imwrite(r'C:\Users\DELL\Documents\KYC_VERIFICATION\\imgdatabase'+str(dirname)+'\\Dataset\\face'+str(count1)+'.jpg', roi_color)
+        cv2.imwrite(r'C:\Users\Aditya Bapat\Downloads\kyc_images\\imgdatabase'+str(dirname)+'\\Dataset\\face'+str(count1)+'.jpg', roi_color)
         count1=count1+1
-    status = cv2.imwrite(r'C:\Users\DELL\Documents\KYC_VERIFICATION\\faces_detected.jpg', image)
+    status = cv2.imwrite(r'C:\Users\Aditya Bapat\Downloads\kyc_images\\faces_detected.jpg', image)
     print("[INFO] Image faces_detected.jpg written to filesystem: ", status)
     return ''
 
@@ -207,7 +207,7 @@ def camera(request, db):
 		#timer='{:02d}:{02d}'.format(mins,secs)
         if(t==500 or t==1000):
             print("Image "+str(count)+"saved")
-            cv2.imwrite(r'C:\Users\DELL\Documents\KYC_VERIFICATION\imgdatabase'+str(dirname)+'\\Dataset\\cam'+str(count)+'.jpeg', img)
+            cv2.imwrite(r'C:\Users\Aditya Bapat\Downloads\kyc_images\imgdatabase'+str(dirname)+'\\Dataset\\cam'+str(count)+'.jpeg', img)
             count +=1
             #time.sleep(1)
             
@@ -248,11 +248,11 @@ def compare(dirname):
     print('Count1 : ',count1)
     for j in range(2):
         print('Path1 '+str(j))
-        path1=r'C:\Users\DELL\Documents\KYC_VERIFICATION\\imgdatabase'+str(dirname)+'\\Dataset\\cam'+str(j)+'.jpeg'
+        path1=r'C:\Users\Aditya Bapat\Downloads\kyc_images\\imgdatabase'+str(dirname)+'\\Dataset\\cam'+str(j)+'.jpeg'
         for i in range(0,count1):
             print('Path2 '+str(i))
             try:
-                path2=r'C:\Users\DELL\Documents\KYC_VERIFICATION\\imgdatabase'+str(dirname)+'\\Dataset\\cam'+str(i)+'.jpeg'
+                path2=r'C:\Users\Aditya Bapat\Downloads\kyc_images\\imgdatabase'+str(dirname)+'\\Dataset\\cam'+str(i)+'.jpeg'
                 print('Comparing image cam'+str(j)+' & face'+str(i))
                 result = DeepFace.verify(img1_path =path1,img2_path =path2, model_name = "VGG-Face", distance_metric = "cosine")
                 threshold = 0.30 #threshold for VGG-Face and Cosine Similarity
