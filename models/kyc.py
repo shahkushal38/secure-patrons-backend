@@ -140,6 +140,43 @@ def kycUserCreate(request, db):
     print(json.loads(request.form.get("data2")))
     try:
         data = json.loads(request.form.get("data2"))
+        print(data["email"])
+        headers1={ "Content-Type": "application/json", 
+        "apy-token": "APT0EppjfyDqxgfYbu4iQllrhIhETXsrnlQEvancq2Vu5Sj" }
+
+        data1 = '{"email":"'+data["email"]+'"}'
+        res = requests.post("https://api.apyhub.com/validate/email/dns", data = data1, 
+        headers=headers1 )
+        # res = res.json()
+        print("res -- ",res.json())
+        res = res.json()
+        # print("res status --", res.status())
+        if(not res["data"]):
+            return Response(
+                response=json.dumps({
+                "message":"User Email not valid"
+            }),
+            status = 400,
+            mimetype="application/json"
+            )
+        headers1={ "Content-Type": "application/json", 
+        "apy-token": "APT0EppjfyDqxgfYbu4iQllrhIhETXsrnlQEvancq2Vu5Sj" }
+
+        data1 = '{"postcode":"'+str(data["pincode"])+'"}'
+        res = requests.post("https://api.apyhub.com/validate/postcodes/in", data = data1, 
+        headers=headers1 )
+        # res = res.json()
+        print("res -- ",res.json())
+        res = res.json()
+        # print("res status --", res.status())
+        if(not res["data"]):
+            return Response(
+                response=json.dumps({
+                "message":"User Pincode not valid"
+            }),
+            status = 400,
+            mimetype="application/json"
+            )
         if request.files:
             image = request.files["document"]
             directory = upload_image(image)
@@ -150,6 +187,10 @@ def kycUserCreate(request, db):
         else:
             raise Exception("Sorry, no file exist")
         
+        # res = requests.post("https://api.apyhub.com/validate/email/dns", headers={ 'Content-Type: application/json', 
+        # 'apy-token: APT0EppjfyDqxgfYbu4iQllrhIhETXsrnlQEvancq2Vu5Sj' }, data={"email": data["email"]})
+        # print(res)
+
         query = {
             "fname": data["fname"],
             "lname": data["lname"],
