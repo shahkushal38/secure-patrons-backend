@@ -47,3 +47,7 @@ To run the backend application in local, the command is -
 ```
 python app.py
 ```
+
+# Github Workspace 
+
+Public Workspace - https://www.postman.com/shahkushal38/workspace/hackthisfall/overview
