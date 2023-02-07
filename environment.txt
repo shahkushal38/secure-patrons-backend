@@ -1,0 +1,10 @@
+This is the .env file for the project
+
+database  = "mongodb+srv://kushal:kushalshah@hackthisfall3.magux9v.mongodb.net/?retryWrites=true&w=majority"
+database_pwd = "kushalshah"
+database_username = "kushal"
+nhost_database_pwd = "KGindra@1234"
+
+
+Aditya Image upload = C:\Users\Aditya Bapat\Downloads\kyc_images
+Kushal Image upload =  C:\Users\DELL\Documents\KYC_VERIFICATION 

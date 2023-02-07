@@ -1,7 +1,7 @@
 # HackThisFall-backend 
 Backend for Hack This Fall Season 3  - backend
 
-Complete Backend in Github - production branch
+### Complete Backend in Github - production branch
 
 First Create a Virtual Environment and activate it
 
@@ -53,3 +53,5 @@ python app.py
 # Github Workspace 
 
 Public Workspace - https://www.postman.com/shahkushal38/workspace/hackthisfall/overview
+
+For .env file check environment.txt
