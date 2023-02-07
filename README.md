@@ -1,5 +1,7 @@
-# HackThisFall-backend
+# HackThisFall-backend 
 Backend for Hack This Fall Season 3  - backend
+
+Complete Backend in Github - production branch
 
 First Create a Virtual Environment and activate it
 
